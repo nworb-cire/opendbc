@@ -429,20 +429,12 @@ BO_ 432 STANDSTILL: 7 VSA
  SG_ COUNTER : 53|2@0+ (1,0) [0|3] "" EON
  SG_ CHECKSUM : 51|4@0+ (1,0) [0|15] "" EON
 
-BO_ 477 ACC_CONTROL: 8 EON
- SG_ SET_TO_0 : 20|5@0+ (1,0) [0|1] "" XXX
- SG_ CONTROL_ON : 23|3@0+ (1,0) [0|5] "" XXX
- SG_ GAS_COMMAND : 7|16@0- (1,0) [0|0] "" XXX
- SG_ ACCEL_COMMAND : 31|11@0- (0.01,0) [0|0] "m/s2" XXX
- SG_ BRAKE_LIGHTS : 62|1@0+ (1,0) [0|1] "" XXX
- SG_ BRAKE_REQUEST : 34|1@0+ (1,0) [0|1] "" XXX
- SG_ STANDSTILL : 35|1@0+ (1,0) [0|1] "" XXX
- SG_ STANDSTILL_RELEASE : 36|1@0+ (1,0) [0|1] "" XXX
- SG_ AEB_STATUS : 33|1@0+ (1,0) [0|1] "" XXX
- SG_ AEB_BRAKING : 47|1@0+ (1,0) [0|1] "" XXX
- SG_ AEB_PREPARE : 43|1@0+ (1,0) [0|1] "" XXX
+BO_ 456 ACC_CONTROL_2: 8 XXX
+ SG_ ACCEL_COMMAND : 7|13@0- (0.01,0) [0|0] "m/s^2" XXX
+ SG_ CONTROL_ON : 10|1@0+ (1,0) [0|1] "" XXX
+ SG_ CONTROL_OFF : 8|1@0+ (1,0) [0|1] "" XXX
+ SG_ CHECKSUM : 56|4@1+ (1,0) [0|15] "" XXX
  SG_ COUNTER : 61|2@0+ (1,0) [0|3] "" XXX
- SG_ CHECKSUM : 59|4@0+ (1,0) [0|15] "" XXX
 
 BO_ 506 LEGACY_BRAKE_COMMAND: 8 ADAS
  SG_ CHIME : 40|8@1+ (1,0) [0|255] "" XXX
@@ -498,6 +490,9 @@ BO_ 254913108 LKAS_HUD_2: 8 ADAS
  SG_ LKAS_BOH_2 : 30|5@0+ (1,0) [0|31] "" XXX
  SG_ COUNTER : 61|2@0+ (1,0) [0|3] "" XXX
  SG_ CHECKSUM : 59|4@0+ (1,0) [0|15] "" XXX
+
+CM_ SG_ 456 CONTROL_OFF "not sure which bit enables cruise";
+CM_ SG_ 456 ACCEL_COMMAND "seems to be m/s^2? deceleration is ~2.3 times more sensitive than acceleration";
 
 VAL_ 401 GEAR_SHIFTER 32 "L" 16 "S" 8 "D" 4 "N" 2 "R" 1 "P";
 VAL_ 401 GEAR 7 "L" 10 "S" 4 "D" 3 "N" 2 "R" 1 "P";
