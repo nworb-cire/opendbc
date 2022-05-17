@@ -1,6 +1,5 @@
 CM_ "IMPORT _comma.dbc";
 CM_ "IMPORT _honda_common.dbc";
-CM_ "IMPORT _bosch_common.dbc";
 
 BO_ 330 STEERING_SENSORS: 8 EPS
  SG_ STEER_ANGLE : 7|16@0- (-0.1,0) [-500|500] "deg" EON
@@ -48,7 +47,7 @@ BO_ 506 LEGACY_BRAKE_COMMAND: 8 ADAS
  SG_ CHECKSUM : 59|4@0+ (1,0) [0|15] "" XXX
  SG_ COUNTER : 61|2@0+ (1,0) [0|3] "" XXX
 
-BO_ 829 LKAS_HUD_C: 8 ADAS
+BO_ 829 LKAS_HUD: 8 ADAS
  SG_ CAM_TEMP_HIGH : 7|1@0+ (1,0) [0|255] "" BDY
  SG_ SET_ME_X41 : 6|7@0+ (1,0) [0|127] "" BDY
  SG_ BOH : 6|7@0+ (1,0) [0|127] "" BDY
