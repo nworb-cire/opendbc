@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from enum import IntFlag
 
 from opendbc.car import Bus, PlatformConfig, DbcDict, Platforms, CarSpecs
 from opendbc.car.structs import CarParams
@@ -6,6 +7,13 @@ from opendbc.car.docs_definitions import CarHarness, CarDocs, CarParts
 from opendbc.car.fw_query_definitions import FwQueryConfig, Request, StdQueries
 
 Ecu = CarParams.Ecu
+
+
+HEAVY_CAR_THRESHOLD = 2000  # kg
+
+
+class GMFlags(IntFlag):
+  HEAVY_CAR = 1
 
 
 class CarControllerParams:
@@ -36,8 +44,14 @@ class CarControllerParams:
     self.MAX_BRAKE = 400  # ~ -4.0 m/s^2 with regen
     self.DRAG_CONSTANT = 0  # TODO: determine this per-car, eventually learn online
 
-    if CP.carFingerprint in (CAMERA_ACC_CAR | SDGM_CAR):
+    if CP.flags | GMFlags.HEAVY_CAR:
+      # for a 2000 kg car with 0.85m radius wheels, 3400 Nm produces 2 m/s^2
+      # 3200 Nm for safety margin
+      self.MAX_TORQUE = 3200
+    else:
       self.MAX_TORQUE = 1346
+
+    if CP.carFingerprint in (CAMERA_ACC_CAR | SDGM_CAR):
       self.MIN_TORQUE = -540
       self.INACTIVE_TORQUE = -500
       # Camera ACC vehicles have no regen while enabled.
@@ -45,7 +59,6 @@ class CarControllerParams:
       self.BRAKE_THRESHOLD = 0.
 
     else:
-      self.MAX_TORQUE = 1018  # Safety limit, not ACC max. Stock ACC >4096 from standstill.
       self.MIN_TORQUE = -650  # Max ACC regen is slightly less than max paddle regen
       self.INACTIVE_TORQUE = -650
       # ICE has much less engine braking force compared to regen in EVs,
