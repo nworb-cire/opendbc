@@ -75,6 +75,7 @@ class GMCarDocs(CarDocs):
 @dataclass(frozen=True, kw_only=True)
 class GMCarSpecs(CarSpecs):
   tireStiffnessFactor: float = 0.444  # not optimized yet
+  wheelRadius: float = 0.32
 
 
 @dataclass
@@ -152,7 +153,7 @@ class CAR(Platforms):
       GMCarDocs("Chevrolet Silverado 1500 2020-21", "Safety Package II"),
       GMCarDocs("GMC Sierra 1500 2020-21", "Driver Alert Package II", video_link="https://youtu.be/5HbNoBLzRwE"),
     ],
-    GMCarSpecs(mass=2450, wheelbase=3.75, steerRatio=16.3, tireStiffnessFactor=1.0),
+    GMCarSpecs(mass=2450, wheelbase=3.75, steerRatio=16.3, tireStiffnessFactor=1.0, wheelRadius=0.85),
   )
   CHEVROLET_EQUINOX = GMPlatformConfig(
     [GMCarDocs("Chevrolet Equinox 2019-22")],
