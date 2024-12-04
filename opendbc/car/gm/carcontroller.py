@@ -100,8 +100,8 @@ class CarController(CarControllerBase):
           self.apply_gas = self.params.INACTIVE_TORQUE
           self.apply_brake = 0
         else:
-          torque = self.accel_to_torque(actuators.accel, CS, 0)  # TODO: add pitch angle
-          torque = max(torque, self.params.MIN_TORQUE)
+          accel = clip(actuators.accel, self.params.ACCEL_MIN, self.params.ACCEL_MAX)
+          torque = self.accel_to_torque(accel, CS, 0)  # TODO: add pitch angle
           brake_accel = min((torque - self.params.BRAKE_THRESHOLD) / (self.CP.wheelRadius * self.CP.mass), 0)
 
           self.apply_brake = int(round(interp(brake_accel, self.params.BRAKE_LOOKUP_BP, self.params.BRAKE_LOOKUP_V)))
