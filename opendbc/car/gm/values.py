@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
-from enum import IntFlag
+from enum import Enum, IntFlag
 
 from opendbc.car import Bus, PlatformConfig, DbcDict, Platforms, CarSpecs
 from opendbc.car.structs import CarParams
-from opendbc.car.docs_definitions import CarHarness, CarDocs, CarParts
+from opendbc.car.docs_definitions import CarDocs, CarFootnote, CarHarness, CarParts, Column
 from opendbc.car.fw_query_definitions import FwQueryConfig, Request, StdQueries
 
 Ecu = CarParams.Ecu
@@ -38,17 +38,17 @@ class CarControllerParams:
     self.DRAG_CONSTANT = 0.3  # should be reasonable for most GM cars
 
     if CP.carFingerprint in (CAMERA_ACC_CAR | SDGM_CAR):
-      self.MAX_TORQUE = 1346
-      self.MIN_TORQUE = -540
-      self.INACTIVE_TORQUE = -500
+      self.MAX_TORQUE = 1346.0
+      self.MIN_TORQUE = -540.0
+      self.INACTIVE_TORQUE = -500.0
       # Camera ACC vehicles have no regen while enabled.
-      # Camera transitions to MAX_ACC_REGEN from ZERO_GAS and uses friction brakes instantly
+      # Camera transitions to MAX_ACC_REGEN from zero gas and uses friction brakes instantly
       self.BRAKE_THRESHOLD = 0.
 
     else:
-      self.MAX_TORQUE = 1018  # Safety limit, not ACC max. Stock ACC >2000 from standstill.
-      self.MIN_TORQUE = -650  # Max ACC regen is slightly less than max paddle regen
-      self.INACTIVE_TORQUE = -650
+      self.MAX_TORQUE = 1018.0  # Safety limit, not ACC max. Stock ACC >2042 from standstill.
+      self.MIN_TORQUE = -650.0  # Max ACC regen is slightly less than max paddle regen
+      self.INACTIVE_TORQUE = -650.0
       # ICE has much less engine braking force compared to regen in EVs,
       # lower threshold removes some braking deadzone
       self.BRAKE_THRESHOLD = self.MIN_TORQUE if CP.carFingerprint in EV_CAR else 0
@@ -63,9 +63,16 @@ class GMSafetyFlags(IntFlag):
   EV = 4
 
 
+class Footnote(Enum):
+  SETUP = CarFootnote(
+    "See more setup details for <a href=\"https://github.com/commaai/openpilot/wiki/gm\">GM</a>.",
+    Column.MAKE, setup_note=True)
+
+
 @dataclass
 class GMCarDocs(CarDocs):
   package: str = "Adaptive Cruise Control (ACC)"
+  footnotes: list[Enum] = field(default_factory=lambda: [Footnote.SETUP])
 
   def init_make(self, CP: CarParams):
     if CP.networkLocation == CarParams.NetworkLocation.fwdCamera:

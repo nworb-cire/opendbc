@@ -23,8 +23,8 @@ class GmLongitudinalBase(common.PandaCarSafetyTest, common.LongitudinalGasBrakeS
   MAX_POSSIBLE_BRAKE = 2 ** 12
   MAX_BRAKE = 400
 
-  MIN_POSSIBLE_GAS = -22534
-  MAX_POSSIBLE_GAS = 43001.875  # (2^19 - 1) / 8 - 22534
+  MAX_POSSIBLE_GAS = 4000  # reasonably excessive limits, not signal max
+  MIN_POSSIBLE_GAS = -4000
 
   PCM_CRUISE = False  # openpilot can control the PCM state if longitudinal
 
@@ -81,9 +81,8 @@ class TestGmSafetyBase(common.PandaCarSafetyTest, common.DriverTorqueSteeringSaf
 
   MAX_RATE_UP = 10
   MAX_RATE_DOWN = 15
-  MAX_TORQUE = 300
+  MAX_TORQUE_LOOKUP = [0], [300]
   MAX_RT_DELTA = 128
-  RT_INTERVAL = 250000
   DRIVER_TORQUE_ALLOWANCE = 65
   DRIVER_TORQUE_FACTOR = 4
 
